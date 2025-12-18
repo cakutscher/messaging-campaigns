@@ -1,13 +1,13 @@
-import { texts } from './texts';
-import type { Campaign } from './types';
+import { texts } from '../domain/texts';
+import type { Campaign } from '../domain/types';
 
 type Props = {
   campaigns: Campaign[];
   onSelect?: (campaignId: string) => void;
-  selectedId?: string;
+  selectedId: string | null;
 };
 
-export function CampaignList({ campaigns, onSelect, selectedId }: Props) {
+function CampaignList({ campaigns, onSelect, selectedId }: Props) {
   const hasCampaigns = campaigns.length > 0;
 
   return (
@@ -51,3 +51,5 @@ export function CampaignList({ campaigns, onSelect, selectedId }: Props) {
     </section>
   );
 }
+
+export default CampaignList;

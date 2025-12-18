@@ -1,9 +1,9 @@
 import type { FormEvent } from 'react';
 import { useState } from 'react';
 
-import { texts } from './domain/texts';
-import type { CampaignInput } from './domain/types';
-import { validateCampaign } from './domain/validation';
+import { texts } from '../domain/texts';
+import type { CampaignInput } from '../domain/types';
+import { validateCampaign } from '../domain/validation';
 
 type Props = {
   onCreate: (input: CampaignInput) => void | Promise<void>;
@@ -68,14 +68,14 @@ function CampaignForm({ onCreate }: Props) {
 
   return (
     <section className="card">
-      <h2>{texts.form.heading}</h2>
+      <h2>{texts.form.title}</h2>
 
       <form onSubmit={handleSubmit} className="form" noValidate>
         {submitError && <p className="error">{submitError}</p>}
 
         <div className="field">
           <label className="label" htmlFor={NAME_ID}>
-            {texts.form.name}
+            {texts.form.nameLabel}
           </label>
 
           <input
@@ -95,7 +95,7 @@ function CampaignForm({ onCreate }: Props) {
 
         <div className="field">
           <label className="label" htmlFor={CONTENT_ID}>
-            {texts.form.content}
+            {texts.form.contentLabel}
           </label>
 
           <textarea
@@ -104,7 +104,7 @@ function CampaignForm({ onCreate }: Props) {
             value={values.content}
             onChange={(e) => handleChangeContent(e.target.value)}
             onBlur={() => setTouched((t) => ({ ...t, content: true }))}
-            placeholder={texts.form.descPlaceholder}
+            placeholder={texts.form.contentPlaceholder}
             maxLength={500}
             rows={4}
             disabled={isSubmitting}
@@ -116,7 +116,7 @@ function CampaignForm({ onCreate }: Props) {
         </div>
 
         <button className="btn" type="submit" disabled={!canSubmit}>
-          {isSubmitting ? texts.form.creating : texts.form.create}
+          {isSubmitting ? texts.form.creatingButton : texts.form.createButton}
         </button>
       </form>
     </section>
