@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+DB_FILE="${1:-./dev.sqlite}"
+
+ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+SCHEMA_FILE="$ROOT_DIR/schema.sql"
+
+if ! command -v sqlite3 >/dev/null 2>&1; then
+  echo "sqlite3 is required but not installed."
+  echo "Install it (e.g. 'brew install sqlite') and retry."
+  exit 2
+fi
+
+echo "Initializing SQLite database"
+echo "  DB:     $DB_FILE"
+echo "  Schema: $SCHEMA_FILE"
+
+sqlite3 "$DB_FILE" < "$SCHEMA_FILE"
+
+echo "Database initialized successfully"
