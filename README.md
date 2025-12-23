@@ -1,73 +1,84 @@
-# React + TypeScript + Vite
+# Messaging Campaigns
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a small full-stack service to create and execute bulk messaging campaigns (SMS / WhatsApp), built as a take-home exercise.  
+It is organized as a lightweight monorepo with a backend API and a React frontend.
 
-Currently, two official plugins are available:
+It allows users to create campaigns, upload recipients via CSV, execute campaigns in the background, monitor delivery status, and cancel running campaigns.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## Project structure
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- `apps/api`  
+  HTTP API responsible for:
+  - storing campaigns and recipients
+  - executing campaigns in the background
+  - handling campaign cancellation
 
-## Expanding the ESLint configuration
+- `apps/web`  
+  React frontend used to:
+  - create campaigns
+  - upload recipients via CSV
+  - execute and cancel campaigns
+  - monitor campaign progress
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+For the scope of this exercise, the service uses **SQLite** as a lightweight embedded database to persist campaigns and recipients between restarts.  
+In a production environment, this would likely be replaced by a managed relational database (e.g. PostgreSQL) and a dedicated background job system.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Setup
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+### 1. Install dependencies
+
+From the repository root:
+
+```bash
+npm run install:all
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+This installs dependencies for both the backend API and the frontend application.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x';
-import reactDom from 'eslint-plugin-react-dom';
+### 2. Environment variables
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+The frontend uses Vite environment variables.
+
+Create a local env file:
+
+```bash
+cp apps/web/.env.example apps/web/.env.local
 ```
+
+Adjust values if needed.
+
+### 3. (Optional) Reset the database
+
+If you want to start from a clean state:
+
+```bash
+npm run reset-db
+```
+
+Make sure the backend server is not running when resetting the database.
+
+## Development
+
+Start both backend and frontend:
+
+```bash
+npm run dev
+```
+
+This will start:
+
+Backend API on http://localhost:3001
+
+Frontend on http://localhost:5173
+
+## Notes on architecture and design choices
+
+- Campaign execution and cancellation are handled server-side, reflecting a more realistic background execution model.
+
+- Messaging is sent through a simulated third-party HTTP API, following the provided specification.
+
+- The implementation prioritizes clarity and correctness within the constraints of a take-home exercise, rather than production-level scalability.
