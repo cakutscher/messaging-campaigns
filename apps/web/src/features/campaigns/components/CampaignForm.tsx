@@ -1,9 +1,8 @@
+import { texts } from '@campaigns/domain/texts';
+import type { CampaignInput } from '@campaigns/domain/types';
+import { validateCampaign } from '@campaigns/domain/validation';
 import type { FormEvent } from 'react';
 import { useState } from 'react';
-
-import { texts } from '../domain/texts';
-import type { CampaignInput } from '../domain/types';
-import { validateCampaign } from '../domain/validation';
 
 type Props = {
   onCreate: (input: CampaignInput) => void | Promise<void>;
@@ -68,15 +67,15 @@ function CampaignForm({ onCreate }: Props) {
 
   return (
     <div className="card-body">
-      <h2 className="card-title" style={{marginBottom: 'var(--space-6)'}}>{texts.form.title}</h2>
+      <h2 className="card-title" style={{ marginBottom: 'var(--space-6)' }}>
+        {texts.form.title}
+      </h2>
 
       <form onSubmit={handleSubmit} noValidate>
         {submitError && <p className="form-error">{submitError}</p>}
 
         <div className="form-group">
-          <label htmlFor={NAME_ID}>
-            {texts.form.nameLabel}
-          </label>
+          <label htmlFor={NAME_ID}>{texts.form.nameLabel}</label>
           <input
             id={NAME_ID}
             name="name"
@@ -93,9 +92,7 @@ function CampaignForm({ onCreate }: Props) {
         </div>
 
         <div className="form-group">
-          <label htmlFor={CONTENT_ID}>
-            {texts.form.contentLabel}
-          </label>
+          <label htmlFor={CONTENT_ID}>{texts.form.contentLabel}</label>
           <textarea
             id={CONTENT_ID}
             name="content"
@@ -108,9 +105,7 @@ function CampaignForm({ onCreate }: Props) {
             disabled={isSubmitting}
             className="form-control"
           />
-          {showDescError && (
-            <small className="form-error">{errors.content}</small>
-          )}
+          {showDescError && <small className="form-error">{errors.content}</small>}
         </div>
 
         <button className="btn btn-primary" type="submit" disabled={!canSubmit}>

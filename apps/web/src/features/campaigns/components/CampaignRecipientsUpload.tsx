@@ -68,17 +68,21 @@ function CampaignRecipientsUpload({ campaignId, onImport }: Props) {
   return (
     <div className="space-y-4">
       <div>
-        <label htmlFor={FILE_ID} className="btn btn-secondary file-upload-label">
-          {texts.recipients.selectFile}
-        </label>
-        <input
-          id={FILE_ID}
-          type="file"
-          name="file"
-          accept=".csv"
-          onChange={onFile}
-          className="file-upload-input"
-        />
+        {!preview.length && (
+          <>
+            <label htmlFor={FILE_ID} className="btn btn-secondary file-upload-label">
+              {texts.recipients.selectFile}
+            </label>
+            <input
+              id={FILE_ID}
+              type="file"
+              name="file"
+              accept=".csv"
+              onChange={onFile}
+              className="file-upload-input"
+            />
+          </>
+        )}
         {fileName && (
           <span className="file-upload-filename">
             {texts.recipients.selectedFile} {fileName}

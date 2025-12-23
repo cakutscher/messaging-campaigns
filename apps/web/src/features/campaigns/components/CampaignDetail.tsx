@@ -28,65 +28,72 @@ function CampaignDetail({ campaign, recipients = [], onImport, onExecute, onCanc
             <p>{campaign.content}</p>
           </div>
 
-          <div className="section">
-            <div className="actions">
-              <button
-                className="btn btn-primary"
-                onClick={() => onExecute?.(campaign.id)}
-                disabled={campaign.status !== 'ready'}
-              >
-                {texts.detail.executeButton}
-              </button>
-              <button
-                className="btn btn-secondary"
-                onClick={() => onCancel?.(campaign.id)}
-                disabled={campaign.status !== 'running'}
-              >
-                {texts.detail.cancelButton}
-              </button>
+          {campaign.status != 'completed' && (
+            <div className="section">
+              <div className="actions">
+                <button
+                  className="btn btn-primary"
+                  onClick={() => onExecute?.(campaign.id)}
+                  disabled={campaign.status !== 'ready'}
+                >
+                  {texts.detail.executeButton}
+                </button>
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => onCancel?.(campaign.id)}
+                  disabled={campaign.status !== 'running'}
+                >
+                  {texts.detail.cancelButton}
+                </button>
+              </div>
             </div>
-          </div>
+          )}
 
           <div className="section">
-            <h3 className="section-title">Destinatarios</h3>
             {recipients.length === 0 ? (
-              <CampaignRecipientsUpload
-                campaignId={campaign.id}
-                onImport={(id, recs) => onImport?.(id, recs)}
-              />
+              <>
+                <h3 className="section-title">Destinatarios</h3>
+                <CampaignRecipientsUpload
+                  campaignId={campaign.id}
+                  onImport={(id, recs) => onImport?.(id, recs)}
+                />
+              </>
             ) : (
               <>
+                <h3 className="section-title">Monitoreo de envíos</h3>
                 <CampaignMonitor recipients={recipients} />
-                <div style={{ marginTop: 'var(--space-4)' }}>
-                  <p style={{ marginBottom: 'var(--space-2)' }}>
-                    {texts.recipients.parsedInfo(recipients.length)}
-                  </p>
+                {campaign.status == 'draft' && (
+                  <div style={{ marginTop: 'var(--space-4)' }}>
+                    <p style={{ marginBottom: 'var(--space-2)' }}>
+                      {texts.recipients.parsedInfo(recipients.length)}
+                    </p>
 
-                  <div className="table-wrapper">
-                    <table className="table">
-                      <thead>
-                        <tr>
-                          <th>{texts.table.name}</th>
-                          <th>{texts.table.phone}</th>
-                          <th>{texts.table.channel}</th>
-                          <th>{texts.table.status}</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {recipients.map((r) => (
-                          <tr key={r.id}>
-                            <td>{r.name}</td>
-                            <td>{r.phone}</td>
-                            <td>{r.channel}</td>
-                            <td>
-                              <span className="pill pill-blue">{r.status}</span>
-                            </td>
+                    <div className="table-wrapper">
+                      <table className="table">
+                        <thead>
+                          <tr>
+                            <th>{texts.table.name}</th>
+                            <th>{texts.table.phone}</th>
+                            <th>{texts.table.channel}</th>
+                            <th>{texts.table.status}</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody>
+                          {recipients.map((r) => (
+                            <tr key={r.id}>
+                              <td>{r.name}</td>
+                              <td>{r.phone}</td>
+                              <td>{r.channel}</td>
+                              <td>
+                                <span className="pill pill-blue">{r.status}</span>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
-                </div>
+                )}
               </>
             )}
           </div>

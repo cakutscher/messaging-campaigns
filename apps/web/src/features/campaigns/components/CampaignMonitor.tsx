@@ -1,5 +1,5 @@
-import { texts } from '../domain/texts';
-import type { Recipient } from '../domain/types';
+import { texts } from '@campaigns/domain/texts';
+import type { Recipient } from '@campaigns/domain/types';
 
 type Props = {
   recipients: Recipient[];

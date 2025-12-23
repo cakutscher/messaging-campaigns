@@ -1,11 +1,10 @@
+import CampaignDetail from '@campaigns/components/CampaignDetail';
+import CampaignForm from '@campaigns/components/CampaignForm';
+import CampaignList from '@campaigns/components/CampaignList';
+import Modal from '@campaigns/components/Modal';
+import { texts } from '@campaigns/domain/texts';
+import { useCampaigns } from '@campaigns/hooks/useCampaigns';
 import { useState } from 'react';
-
-import CampaignDetail from '../components/CampaignDetail';
-import CampaignForm from '../components/CampaignForm';
-import CampaignList from '../components/CampaignList';
-import Modal from '../components/Modal';
-import { texts } from '../domain/texts';
-import { useCampaigns } from '../hooks/useCampaigns';
 
 function CampaignDashboard() {
   const {
@@ -39,11 +38,7 @@ function CampaignDashboard() {
       </header>
 
       <div className="dashboard-layout">
-        <CampaignList
-          campaigns={campaigns}
-          onSelect={setSelectedId}
-          selectedId={selectedId}
-        />
+        <CampaignList campaigns={campaigns} onSelect={setSelectedId} selectedId={selectedId} />
 
         <CampaignDetail
           campaign={selectedCampaign}

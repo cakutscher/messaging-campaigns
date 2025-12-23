@@ -1,5 +1,5 @@
-import { texts } from '../domain/texts';
-import type { Campaign } from '../domain/types';
+import { texts } from '@campaigns/domain/texts';
+import type { Campaign } from '@campaigns/domain/types';
 
 type Props = {
   campaigns: Campaign[];
@@ -43,8 +43,7 @@ function CampaignList({ campaigns, onSelect, selectedId }: Props) {
                   <div className="campaign-list-item__content">
                     <span className="campaign-list-item__title">{c.name}</span>
                     <span className="campaign-list-item__date">
-                      {texts.list.created}{' '}
-                      {new Date(c.createdAt).toLocaleDateString()}
+                      {texts.list.created} {new Date(c.createdAt).toLocaleDateString()}
                     </span>
                   </div>
                   <span className={`pill ${pillClass}`}>{c.status}</span>
